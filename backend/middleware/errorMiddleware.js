@@ -5,10 +5,13 @@
 const notFound = (req, res, next) => {
     const error = new Error(`Not found -${req.originalUrl}`);
     res.status(404);
+    //To pass it to global error handling
+    //When we pass ANY argument in the next function, no matter what the argument is, express will automatically assume that there's an error
+    //And will call an error handler and skip all middleware stack
     next(error);
 }
 
-//err = first argument for custom error middleware
+//err = first argument for custom error middleware (express know based on this first argument, and will atuo recognize and will only call this when there's an error)
 const errorHandler = (err, req, res, next) => {
     //If we throw a manual error we create, the status might be 200 but we don't want a 200 error
     let statusCode = res.statusCode === 200 ? 500 : res.statusCode
